@@ -1,14 +1,42 @@
-import { Link } from "react-router-dom";
-
+import { useContext } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../auth/AuthProvider";
+import GoogleSignIn from "./../../shared/button/GoogleSignIn";
 function Signin() {
+  const { user, signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   // handle sign in
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
+  const handleSignIn = async (e) => {
+    try {
+      e.preventDefault();
+      const form = e.target;
+      const email = form.email.value;
+      const password = form.password.value;
+      await signIn(email, password).then(() => {
+        Swal.fire({
+          title: "Success",
+          text: "You have successfully logged in!",
+          icon: "success",
+          timer: 1000,
+        });
+        navigate("/");
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: error.message,
+        icon: "error",
+        timer: 1000,
+      });
+    }
   };
+
+  if (user) {
+    return <Navigate to={"/"}></Navigate>;
+  }
+
   return (
     <>
       {/* sign in */}
@@ -66,13 +94,7 @@ function Signin() {
               <span className="px-2 text-gray-400">or</span>
               <hr className="w-full border-gray-300" />
             </div>
-            <button
-              type="button"
-              className="w-full bg-red-500 text-white py-2 rounded-lg shadow hover:bg-red-600 mt-4 my-transition"
-              onClick={() => console.log("Google Sign-In")}
-            >
-              Sign in with Google
-            </button>
+            <GoogleSignIn></GoogleSignIn>
           </form>
           <p className="text-sm text-gray-600 text-center mt-4">
             {` Don't have an account?`}{" "}

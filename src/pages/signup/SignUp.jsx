@@ -1,24 +1,54 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../auth/AuthProvider";
+import GoogleSignIn from "../../shared/button/GoogleSignIn";
 
 function SignUp() {
+  const { user, signUp, updateUserProfile } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   // show password
   const [showPassword, setShowPassword] = useState(false);
 
   //   handle submit form
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const fullName = form.fullName.value;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(fullName, email, password);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const form = e.target;
+      const fullName = form.fullName.value;
+      const email = form.email.value;
+      const password = form.password.value;
+      await signUp(email, password).then(() => {
+        updateUserProfile(fullName).then(() => {
+          Swal.fire({
+            title: "Success",
+            text: "Signed up successfully",
+            icon: "success",
+            timer: 1000,
+          });
+          navigate("/");
+        });
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: error.message,
+        icon: "error",
+        timer: 1000,
+      });
+    }
   };
+
+  if (user) {
+    return <Navigate to={"/"}></Navigate>;
+  }
   return (
     <>
       {/* sign up */}
-      <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      <div className="flex items-center justify-center min-h-screen bg-gray-200 py-10">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-primary mb-6">
             Create An Account
@@ -99,13 +129,7 @@ function SignUp() {
               <span className="px-2 text-gray-400">or</span>
               <hr className="w-full border-gray-300" />
             </div>
-            <button
-              type="button"
-              className="w-full bg-red-500 text-white py-2 rounded-lg shadow hover:bg-red-600 mt-4"
-              onClick={() => console.log("Google Sign-Up")}
-            >
-              Sign up with Google
-            </button>
+            <GoogleSignIn></GoogleSignIn>
           </form>
           <p className="text-sm text-gray-600 text-center mt-4">
             {` Already have an account?`}{" "}
