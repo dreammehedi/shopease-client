@@ -24,7 +24,7 @@ function Header() {
           <ul
             className={`${
               activeMenu ? "flex z-[9999]" : "hidden"
-            } lg:hidden bg-gray w-[200px] h-fit p-8 rounded-md absolute top-[56px] right-[1.5rem] my-transition flex flex-col gap-4 md:gap-6 *:font-semibold *:capitalize *:font-lato`}
+            } lg:hidden bg-gray-100 w-[200px] h-fit p-8 rounded-md absolute top-[56px] right-[1.5rem] my-transition flex flex-col gap-4 md:gap-6 *:font-semibold *:capitalize *:font-lato`}
           >
             <Menu></Menu>
           </ul>

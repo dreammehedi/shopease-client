@@ -19,7 +19,6 @@ export default {
         accent: "#E53E3E",
         success: "#38A169",
         warning: "#DD6B20",
-        gray: "#CBD5E0",
       },
     },
   },
