@@ -20,3 +20,10 @@
     @apply text-sm;
   }
 }
+
+/* utilities layer*/
+@layer utilities {
+  .my-transition {
+    @apply transition-all duration-300 ease-linear;
+  }
+}
