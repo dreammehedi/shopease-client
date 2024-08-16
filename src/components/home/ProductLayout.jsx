@@ -15,28 +15,6 @@ const ProductLayout = ({ products }) => {
           <ProductGrid products={products} />
         </div>
       </div>
-
-      {/* product pagination */}
-      <div className="w-full py-4 md:py-6 flex justify-center items-center">
-        <button className="text-sm text-white bg-secondary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white">
-          Prev
-        </button>
-        <button className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white">
-          1
-        </button>
-        <button className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white">
-          2
-        </button>
-        <button className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white">
-          3
-        </button>
-        <button className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white">
-          4
-        </button>
-        <button className="text-sm text-white bg-secondary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center ">
-          Next
-        </button>
-      </div>
     </>
   );
 };
