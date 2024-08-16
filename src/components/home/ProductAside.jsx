@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 const ProductAside = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -83,8 +82,5 @@ const ProductAside = () => {
     </aside>
   );
 };
-ProductAside.propTypes = {
-  onFilterChange: PropTypes.func.isRequired,
-  onSortChange: PropTypes.func.isRequired,
-};
+
 export default ProductAside;

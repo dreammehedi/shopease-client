@@ -18,6 +18,6 @@ const ProductLayout = ({ products }) => {
 };
 
 ProductLayout.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  products: PropTypes.array.isRequired,
 };
 export default ProductLayout;
