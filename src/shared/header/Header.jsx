@@ -3,6 +3,7 @@ import { MdClose } from "react-icons/md";
 import { RiMenuFoldFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import userAvatarImg from "../../assets/user-avatar.png";
 import { AuthContext } from "../../auth/AuthProvider";
 import Menu from "../../components/Menu";
 function Header() {
@@ -77,7 +78,7 @@ function Header() {
                   onMouseEnter={() => {
                     setShowUserInfo(true);
                   }}
-                  src={user.photoURL}
+                  src={userAvatarImg || user.photoURL}
                   alt="User Avatar"
                   className="rounded-full h-12 w-12 border border-secondary p-1 cursor-pointer"
                 />
