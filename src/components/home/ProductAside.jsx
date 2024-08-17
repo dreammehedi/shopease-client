@@ -1,14 +1,21 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ProductContext } from "./Products";
 
 const ProductAside = () => {
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-
   // products information
-  const { brandNames, categoryNames, setSearchProduct } =
-    useContext(ProductContext);
+  const {
+    brandNames,
+    categoryNames,
+    setSearchProduct,
+    selectedBrand,
+    setSelectedBrand,
+    selectedCategory,
+    setSelectedCategory,
+    priceRange,
+    setPriceRange,
+    sortedBy,
+    setSortedBy,
+  } = useContext(ProductContext);
 
   // handle search products
   const handleSearchProduct = (e) => {
@@ -17,6 +24,7 @@ const ProductAside = () => {
     const searchValue = form?.search?.value.trim();
     setSearchProduct(searchValue);
   };
+
   return (
     <aside className="sticky top-0 p-4 bg-white shadow-md rounded-md">
       {/* search products */}
@@ -87,7 +95,7 @@ const ProductAside = () => {
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="">All Brands</option>
+            <option value="">All Categories</option>
             {categoryNames.map((categoryName, ind) => {
               let modifiedStringCategoryName = categoryName
                 .replace(/([a-z])([A-Z])/, "$1 $2")
@@ -124,12 +132,22 @@ const ProductAside = () => {
             />
           </div>
         </div>
+        <button
+          type="submit"
+          className="w-full bg-primary text-white py-2 rounded-lg shadow hover:bg-secondary my-transition"
+        >
+          Filter
+        </button>
       </div>
 
       {/* sorting */}
       <div className="mt-6">
         <h2 className="text-xl font-semibold mb-4 text-primary">Sorting</h2>
-        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition">
+        <select
+          value={sortedBy}
+          onChange={(e) => setSortedBy(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
+        >
           <option value="">Select an option</option>
           <option value="priceAsc">Price: Low to High</option>
           <option value="priceDesc">Price: High to Low</option>

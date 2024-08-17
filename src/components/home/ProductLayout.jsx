@@ -16,8 +16,9 @@ const ProductLayout = () => {
   } = useContext(ProductContext);
 
   // Determine the number of pages
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(totalProductsCount / itemsPerPage);
+
+  const totalPages = Math.ceil(totalProductsCount / 6);
+  console.log(totalPages);
 
   // Create an array representing the pages
   const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -61,42 +62,46 @@ const ProductLayout = () => {
               <ProductGrid products={products} />
 
               {/* product pagination */}
-              <ul className="mt-6 w-full py-4 md:py-6 flex justify-center items-center">
-                <button
-                  onClick={() => {
-                    handlePrev();
-                  }}
-                  className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white"
-                >
-                  Prev
-                </button>
-                {paginationArray.map((page) => {
-                  return (
-                    <li
-                      key={page}
+              {totalPages > 1 && (
+                <>
+                  <ul className="mt-6 w-full py-4 md:py-6 flex justify-center items-center">
+                    <button
                       onClick={() => {
-                        handleActivePage(page);
+                        handlePrev();
                       }}
-                      className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white ${
-                        page === activePage
-                          ? "bg-secondary font-bold"
-                          : "bg-primary hover:bg-secondary"
-                      }`}
+                      className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white"
                     >
-                      {page}
-                    </li>
-                  );
-                })}
+                      Prev
+                    </button>
+                    {paginationArray.map((page) => {
+                      return (
+                        <li
+                          key={page}
+                          onClick={() => {
+                            handleActivePage(page);
+                          }}
+                          className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white ${
+                            page === activePage
+                              ? "bg-secondary font-bold"
+                              : "bg-primary hover:bg-secondary"
+                          }`}
+                        >
+                          {page}
+                        </li>
+                      );
+                    })}
 
-                <button
-                  onClick={() => {
-                    handleNext();
-                  }}
-                  className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center "
-                >
-                  Next
-                </button>
-              </ul>
+                    <button
+                      onClick={() => {
+                        handleNext();
+                      }}
+                      className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center "
+                    >
+                      Next
+                    </button>
+                  </ul>
+                </>
+              )}
             </div>
           </>
         ) : (

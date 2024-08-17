@@ -13,15 +13,37 @@ function Products() {
   // search products
   const [searchProduct, setSearchProduct] = useState("");
 
+  // brand name
+  const [selectedBrand, setSelectedBrand] = useState("");
+
+  // category name
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  // price range
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+
+  // sorting
+  const [sortedBy, setSortedBy] = useState("");
+
   // axios public
   const axiosPublic = useAxiosPublic();
 
   // all products get
   const { data: productsData = {}, isPending: productLoading } = useQuery({
-    queryKey: ["allProducts", activePage, searchProduct],
+    queryKey: [
+      "allProducts",
+      activePage,
+      searchProduct,
+      selectedBrand,
+      selectedCategory,
+      priceRange,
+      sortedBy,
+    ],
     queryFn: async () => {
       const fetchProducts = await axiosPublic.get(
-        `http://localhost:5000/api/products?currentPage=${activePage}&searchProduct=${searchProduct}`
+        `http://localhost:5000/api/products?currentPage=${activePage}&searchProduct=${searchProduct}&brandName=${selectedBrand}&categoryName=${selectedCategory}&priceRange=${JSON.stringify(
+          priceRange
+        )}&sortedBy=${sortedBy}`
       );
       const resProducts = await fetchProducts.data;
       return resProducts;
@@ -46,7 +68,16 @@ function Products() {
     brandNames: uniqueBrandNames,
     categoryNames: uniqueCategory,
     totalProductsCount,
+    selectedBrand,
+    setSelectedBrand,
+    selectedCategory,
+    setSelectedCategory,
+    priceRange,
+    setPriceRange,
+    sortedBy,
+    setSortedBy,
   };
+
   return (
     <>
       <ProductContext.Provider value={productsInfo}>
