@@ -3,6 +3,7 @@ import ProductAside from "./ProductAside";
 import ProductGrid from "./ProductGrid";
 const ProductLayout = ({
   products,
+
   brandNames,
   categoryNames,
   totalProductsCount,
@@ -36,6 +37,7 @@ const ProductLayout = ({
       setActivePage(activePage + 1);
     }
   };
+
   return (
     <>
       <div className="py-4 md:py-6 grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
@@ -95,11 +97,15 @@ const ProductLayout = ({
             </div>
           </>
         ) : (
-          <div className="col-span-3 py-3 flex flex-col justify-center  ">
-            <h3 className="text-xl font-semibold text-center text-red-500">
+          <div
+            style={{
+              background: `linear-gradient(265deg, rgb(43 108 176 / 24%), rgb(49 151 149 / 23%)), url(https://i.ibb.co/gJfFcCy/no-data.jpg)`,
+            }}
+            className="!bg-no-repeat !bg-center !bg-contain rounded-md overflow-hidden col-span-3 relative py-3 flex flex-col justify-center min-h-[350px]"
+          >
+            <h3 className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-red-500">
               Products Not Found!
             </h3>
-            <img src="https://i.ibb.co/gJfFcCy/no-data.jpg" alt="" />
           </div>
         )}
       </div>

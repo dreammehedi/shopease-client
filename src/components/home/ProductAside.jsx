@@ -120,10 +120,6 @@ const ProductAside = ({ brandNames, categoryNames, setSearchProduct }) => {
             />
           </div>
         </div>
-
-        <button className="w-full bg-primary text-white py-2 rounded-lg shadow hover:bg-secondary my-transition">
-          Apply Filters
-        </button>
       </div>
 
       {/* sorting */}
