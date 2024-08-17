@@ -18,7 +18,6 @@ const ProductLayout = () => {
   // Determine the number of pages
 
   const totalPages = Math.ceil(totalProductsCount / 6);
-  console.log(totalPages);
 
   // Create an array representing the pages
   const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
