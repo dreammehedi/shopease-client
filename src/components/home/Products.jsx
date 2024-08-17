@@ -5,7 +5,7 @@ import ProductLayout from "./ProductLayout";
 
 function Products() {
   // active page
-  const [activePage, setActivePage] = useState(0);
+  const [activePage, setActivePage] = useState(1);
 
   // axios public
   const axiosPublic = useAxiosPublic();
@@ -29,7 +29,7 @@ function Products() {
   const totalPages = Math.ceil(totalProductsCount / itemsPerPage);
 
   // Create an array representing the pages
-  const paginationArray = Array.from({ length: totalPages }, (_, i) => i);
+  const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   // handle active page
   const handleActivePage = (page) => {
@@ -38,14 +38,14 @@ function Products() {
 
   // handle prev button
   const handlePrev = () => {
-    if (activePage > 0) {
+    if (activePage > 1) {
       setActivePage(activePage - 1);
     }
   };
 
   // handle next button
   const handleNext = () => {
-    if (activePage + 1 < totalPages) {
+    if (activePage < totalPages) {
       setActivePage(activePage + 1);
     }
   };
@@ -86,7 +86,7 @@ function Products() {
                     : "bg-primary hover:bg-secondary"
                 }`}
               >
-                {page + 1}
+                {page}
               </li>
             );
           })}
