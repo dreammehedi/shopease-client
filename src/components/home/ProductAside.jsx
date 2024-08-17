@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ProductContext } from "./Products";
 
 const ProductAside = () => {
@@ -7,15 +7,17 @@ const ProductAside = () => {
     brandNames,
     categoryNames,
     setSearchProduct,
-    selectedBrand,
-    setSelectedBrand,
-    selectedCategory,
     setSelectedCategory,
-    priceRange,
+    setSelectedBrand,
     setPriceRange,
     sortedBy,
     setSortedBy,
   } = useContext(ProductContext);
+
+  const brandRef = useRef();
+  const categoryRef = useRef();
+  const minPriceRef = useRef();
+  const maxPriceRef = useRef();
 
   // handle search products
   const handleSearchProduct = (e) => {
@@ -25,6 +27,16 @@ const ProductAside = () => {
     setSearchProduct(searchValue);
   };
 
+  // handle filter
+  const handleFilter = () => {
+    const brand = brandRef.current.value;
+    const category = categoryRef.current.value;
+    const minPrice = minPriceRef.current.value;
+    const maxPrice = maxPriceRef.current.value;
+    setSelectedBrand(brand);
+    setSelectedCategory(category);
+    setPriceRange([minPrice, maxPrice]);
+  };
   return (
     <aside className="sticky top-0 p-4 bg-white shadow-md rounded-md">
       {/* search products */}
@@ -67,8 +79,8 @@ const ProductAside = () => {
           </label>
           <select
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
-            value={selectedBrand}
-            onChange={(e) => setSelectedBrand(e.target.value)}
+            ref={brandRef}
+            // onChange={(e) => setSelectedBrand(e.target.value)}
           >
             <option value="">All Brands</option>
             {brandNames.map((brandName, ind) => {
@@ -91,9 +103,10 @@ const ProductAside = () => {
             Category Name
           </label>
           <select
+            ref={categoryRef}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+
+            // onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="">All Categories</option>
             {categoryNames.map((categoryName, ind) => {
@@ -119,20 +132,25 @@ const ProductAside = () => {
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
-              value={priceRange[0]}
-              onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
+              // value={priceRange[0]}
+              // onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
+              ref={minPriceRef}
+              min={0}
               placeholder="Min"
             />
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
+              // value={priceRange[1]}
+              // onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
+              ref={maxPriceRef}
+              min={5000}
               placeholder="Max"
             />
           </div>
         </div>
         <button
+          onClick={handleFilter}
           type="submit"
           className="w-full bg-primary text-white py-2 rounded-lg shadow hover:bg-secondary my-transition"
         >
