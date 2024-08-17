@@ -9,16 +9,15 @@ function Products() {
 
   // search products
   const [searchProduct, setSearchProduct] = useState("");
-  console.log(searchProduct.trim());
 
   // axios public
   const axiosPublic = useAxiosPublic();
   // all products get
   const { data: productsData = {} } = useQuery({
-    queryKey: ["allProducts", activePage],
+    queryKey: ["allProducts", activePage, searchProduct],
     queryFn: async () => {
       const fetchProducts = await axiosPublic.get(
-        `http://localhost:5000/api/products?currentPage= ${activePage}`
+        `http://localhost:5000/api/products?currentPage=${activePage}&searchProduct=${searchProduct}`
       );
       const resProducts = await fetchProducts.data;
       return resProducts;

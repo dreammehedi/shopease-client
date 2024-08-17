@@ -1,23 +1,18 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-const ProductAside = ({
-  brandNames,
-  categoryNames,
-  searchProduct,
-  setSearchProduct,
-}) => {
+const ProductAside = ({ brandNames, categoryNames, setSearchProduct }) => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
 
   // handle search products
-  // const handleSearchProduct = async (e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const searchValue = form?.search?.value.trim();
-  //   console.log(searchValue);
-  // };
+  const handleSearchProduct = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const searchValue = form?.search?.value.trim();
+    setSearchProduct(searchValue);
+  };
   return (
     <aside className="sticky top-0 p-4 bg-white shadow-md rounded-md">
       {/* search products */}
@@ -26,7 +21,11 @@ const ProductAside = ({
           Search Products
         </h2>
 
-        <form>
+        <form
+          onSubmit={(e) => {
+            handleSearchProduct(e);
+          }}
+        >
           <label
             className="block text-dark text-sm font-bold mb-2"
             htmlFor="search"
@@ -35,13 +34,10 @@ const ProductAside = ({
           </label>
           <input
             type="text"
-            value={searchProduct}
-            onChange={(e) => {
-              setSearchProduct(e.target?.value);
-            }}
+            id="search"
+            name="search"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
             placeholder="Search Product Name"
-            required
           />
         </form>
       </div>
@@ -148,6 +144,6 @@ ProductAside.propTypes = {
   brandNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   categoryNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   searchProduct: PropTypes.string.isRequired,
-  setSearchProduct: PropTypes.func,
+  setSearchProduct: PropTypes.func.isRequired,
 };
 export default ProductAside;
