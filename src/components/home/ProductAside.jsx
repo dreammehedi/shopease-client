@@ -1,10 +1,14 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ProductContext } from "./Products";
 
-const ProductAside = ({ brandNames, categoryNames, setSearchProduct }) => {
+const ProductAside = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
+
+  // products information
+  const { brandNames, categoryNames, setSearchProduct } =
+    useContext(ProductContext);
 
   // handle search products
   const handleSearchProduct = (e) => {
@@ -136,10 +140,4 @@ const ProductAside = ({ brandNames, categoryNames, setSearchProduct }) => {
   );
 };
 
-ProductAside.propTypes = {
-  brandNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  categoryNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  searchProduct: PropTypes.string.isRequired,
-  setSearchProduct: PropTypes.func.isRequired,
-};
 export default ProductAside;

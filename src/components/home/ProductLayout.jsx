@@ -1,17 +1,20 @@
-import PropTypes from "prop-types";
+import { useContext } from "react";
 import ProductAside from "./ProductAside";
 import ProductGrid from "./ProductGrid";
-const ProductLayout = ({
-  products,
+import { ProductContext } from "./Products";
+const ProductLayout = () => {
+  // products information
+  const {
+    products,
+    brandNames,
+    categoryNames,
+    totalProductsCount,
+    activePage,
+    setActivePage,
+    searchProduct,
+    setSearchProduct,
+  } = useContext(ProductContext);
 
-  brandNames,
-  categoryNames,
-  totalProductsCount,
-  activePage,
-  setActivePage,
-  searchProduct,
-  setSearchProduct,
-}) => {
   // Determine the number of pages
   const itemsPerPage = 6;
   const totalPages = Math.ceil(totalProductsCount / itemsPerPage);
@@ -113,14 +116,4 @@ const ProductLayout = ({
   );
 };
 
-ProductLayout.propTypes = {
-  products: PropTypes.array.isRequired,
-  brandNames: PropTypes.array.isRequired,
-  categoryNames: PropTypes.array.isRequired,
-  totalProductsCount: PropTypes.number.isRequired,
-  activePage: PropTypes.number.isRequired,
-  setActivePage: PropTypes.func.isRequired,
-  searchProduct: PropTypes.string.isRequired,
-  setSearchProduct: PropTypes.func,
-};
 export default ProductLayout;
