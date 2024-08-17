@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { RiMenuFoldFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 import userAvatarImg from "../../assets/user-avatar.png";
 import { AuthContext } from "../../auth/AuthProvider";
@@ -57,6 +57,26 @@ function Header() {
             } lg:hidden bg-gray-100 w-[200px] h-fit p-8 rounded-md absolute top-[56px] right-[1.5rem] my-transition flex flex-col gap-4 md:gap-6 *:font-semibold *:capitalize *:font-lato`}
           >
             <Menu></Menu>
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-primary font-bold" : "";
+                }}
+                to="/signin"
+              >
+                Sign In
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-primary font-bold" : "";
+                }}
+                to="/signup"
+              >
+                Sign Up
+              </NavLink>
+            </li>
           </ul>
 
           {/* desktop menu */}
@@ -104,7 +124,7 @@ function Header() {
                 </div>
               </div>
             ) : (
-              <ul className="flex justify-center items-center gap-4 md:gap-6 *:font-semibold *:capitalize *:font-lato">
+              <ul className="hidden md:flex justify-center items-center gap-4 md:gap-6 *:font-semibold *:capitalize *:font-lato">
                 <li>
                   <Link to="/signin">
                     <button className="bg-primary font-medium px-6 py-2 rounded-md text-white font-lato capitalize cursor-pointer hover:bg-secondary my-transition">

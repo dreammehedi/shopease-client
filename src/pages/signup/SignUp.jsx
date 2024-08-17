@@ -48,7 +48,7 @@ function SignUp() {
   return (
     <>
       {/* sign up */}
-      <div className="flex items-center justify-center min-h-screen bg-gray-200 py-10">
+      <div className="container flex items-center justify-center min-h-screen bg-gray-200 py-10">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-primary mb-6">
             Create An Account
