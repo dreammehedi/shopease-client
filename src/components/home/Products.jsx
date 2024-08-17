@@ -12,6 +12,7 @@ function Products() {
 
   // axios public
   const axiosPublic = useAxiosPublic();
+
   // all products get
   const { data: productsData = {} } = useQuery({
     queryKey: ["allProducts", activePage, searchProduct],
@@ -32,31 +33,8 @@ function Products() {
     uniqueCategory = [],
   } = productsData;
 
-  // Determine the number of pages
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(totalProductsCount / itemsPerPage);
+  console.log(products);
 
-  // Create an array representing the pages
-  const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
-
-  // handle active page
-  const handleActivePage = (page) => {
-    setActivePage(page);
-  };
-
-  // handle prev button
-  const handlePrev = () => {
-    if (activePage > 1) {
-      setActivePage(activePage - 1);
-    }
-  };
-
-  // handle next button
-  const handleNext = () => {
-    if (activePage < totalPages) {
-      setActivePage(activePage + 1);
-    }
-  };
   return (
     <>
       <section className="container py-4 md:py-6">
@@ -70,47 +48,12 @@ function Products() {
           products={products}
           brandNames={uniqueBrandNames}
           categoryNames={uniqueCategory}
+          totalProductsCount={totalProductsCount}
+          activePage={activePage}
+          setActivePage={setActivePage}
           searchProduct={searchProduct}
           setSearchProduct={setSearchProduct}
         ></ProductLayout>
-
-        {/* product pagination */}
-        <ul className="w-full py-4 md:py-6 flex justify-center items-center">
-          <button
-            onClick={() => {
-              handlePrev();
-            }}
-            className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white"
-          >
-            Prev
-          </button>
-          {paginationArray.map((page) => {
-            return (
-              <li
-                key={page}
-                onClick={() => {
-                  handleActivePage(page);
-                }}
-                className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white ${
-                  page === activePage
-                    ? "bg-secondary font-bold"
-                    : "bg-primary hover:bg-secondary"
-                }`}
-              >
-                {page}
-              </li>
-            );
-          })}
-
-          <button
-            onClick={() => {
-              handleNext();
-            }}
-            className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center "
-          >
-            Next
-          </button>
-        </ul>
       </section>
     </>
   );

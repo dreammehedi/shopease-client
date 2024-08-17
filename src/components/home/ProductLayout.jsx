@@ -5,9 +5,37 @@ const ProductLayout = ({
   products,
   brandNames,
   categoryNames,
+  totalProductsCount,
+  activePage,
+  setActivePage,
   searchProduct,
   setSearchProduct,
 }) => {
+  // Determine the number of pages
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(totalProductsCount / itemsPerPage);
+
+  // Create an array representing the pages
+  const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  // handle active page
+  const handleActivePage = (page) => {
+    setActivePage(page);
+  };
+
+  // handle prev button
+  const handlePrev = () => {
+    if (activePage > 1) {
+      setActivePage(activePage - 1);
+    }
+  };
+
+  // handle next button
+  const handleNext = () => {
+    if (activePage < totalPages) {
+      setActivePage(activePage + 1);
+    }
+  };
   return (
     <>
       <div className="py-4 md:py-6 grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
@@ -21,10 +49,59 @@ const ProductLayout = ({
           />
         </div>
 
-        {/* product grid */}
-        <div className="lg:col-span-3">
-          <ProductGrid products={products} />
-        </div>
+        {products.length > 0 ? (
+          <>
+            {/* product grid */}
+            <div className="lg:col-span-3">
+              <ProductGrid products={products} />
+
+              {/* product pagination */}
+              <ul className="mt-6 w-full py-4 md:py-6 flex justify-center items-center">
+                <button
+                  onClick={() => {
+                    handlePrev();
+                  }}
+                  className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white"
+                >
+                  Prev
+                </button>
+                {paginationArray.map((page) => {
+                  return (
+                    <li
+                      key={page}
+                      onClick={() => {
+                        handleActivePage(page);
+                      }}
+                      className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white ${
+                        page === activePage
+                          ? "bg-secondary font-bold"
+                          : "bg-primary hover:bg-secondary"
+                      }`}
+                    >
+                      {page}
+                    </li>
+                  );
+                })}
+
+                <button
+                  onClick={() => {
+                    handleNext();
+                  }}
+                  className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center "
+                >
+                  Next
+                </button>
+              </ul>
+            </div>
+          </>
+        ) : (
+          <div className="col-span-3 py-3 flex flex-col justify-center  ">
+            <h3 className="text-xl font-semibold text-center text-red-500">
+              Products Not Found!
+            </h3>
+            <img src="https://i.ibb.co/gJfFcCy/no-data.jpg" alt="" />
+          </div>
+        )}
       </div>
     </>
   );
@@ -34,6 +111,9 @@ ProductLayout.propTypes = {
   products: PropTypes.array.isRequired,
   brandNames: PropTypes.array.isRequired,
   categoryNames: PropTypes.array.isRequired,
+  totalProductsCount: PropTypes.number.isRequired,
+  activePage: PropTypes.number.isRequired,
+  setActivePage: PropTypes.func.isRequired,
   searchProduct: PropTypes.string.isRequired,
   setSearchProduct: PropTypes.func,
 };
