@@ -26,6 +26,7 @@ function Products() {
     payload: products = [],
     totalProductsCount = 0,
     uniqueBrandNames = [],
+    uniqueCategory = [],
   } = productsData;
 
   // Determine the number of pages
@@ -65,6 +66,7 @@ function Products() {
         <ProductLayout
           products={products}
           brandNames={uniqueBrandNames}
+          categoryNames={uniqueCategory}
         ></ProductLayout>
 
         {/* product pagination */}
