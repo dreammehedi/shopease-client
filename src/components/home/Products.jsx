@@ -7,6 +7,10 @@ function Products() {
   // active page
   const [activePage, setActivePage] = useState(1);
 
+  // search products
+  const [searchProduct, setSearchProduct] = useState("");
+  console.log(searchProduct.trim());
+
   // axios public
   const axiosPublic = useAxiosPublic();
   // all products get
@@ -67,6 +71,8 @@ function Products() {
           products={products}
           brandNames={uniqueBrandNames}
           categoryNames={uniqueCategory}
+          searchProduct={searchProduct}
+          setSearchProduct={setSearchProduct}
         ></ProductLayout>
 
         {/* product pagination */}
