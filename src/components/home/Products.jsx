@@ -22,7 +22,11 @@ function Products() {
   });
 
   // all  products data
-  const { payload: products = [], totalProductsCount = 0 } = productsData;
+  const {
+    payload: products = [],
+    totalProductsCount = 0,
+    uniqueBrandNames = [],
+  } = productsData;
 
   // Determine the number of pages
   const itemsPerPage = 6;
@@ -60,7 +64,7 @@ function Products() {
         {/* product layout */}
         <ProductLayout
           products={products}
-          totalProductsCount={totalProductsCount}
+          brandNames={uniqueBrandNames}
         ></ProductLayout>
 
         {/* product pagination */}

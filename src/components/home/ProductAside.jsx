@@ -1,5 +1,7 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
-const ProductAside = () => {
+
+const ProductAside = ({ brandNames }) => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
@@ -21,8 +23,17 @@ const ProductAside = () => {
           onChange={(e) => setSelectedBrand(e.target.value)}
         >
           <option value="">All Brands</option>
-          <option value="brand1">Brand 1</option>
-          <option value="brand2">Brand 2</option>
+          {brandNames.map((brandName, ind) => {
+            let modifiedStringBrandName = brandName
+              .replace(/([a-z])([A-Z])/, "$1 $2")
+              .trim();
+
+            return (
+              <option key={ind} value={brandName} className="capitalize">
+                {modifiedStringBrandName}
+              </option>
+            );
+          })}
         </select>
       </div>
 
@@ -83,4 +94,7 @@ const ProductAside = () => {
   );
 };
 
+ProductAside.propTypes = {
+  brandNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 export default ProductAside;
