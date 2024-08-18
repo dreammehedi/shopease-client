@@ -4,7 +4,7 @@ function ProductCard({ product }) {
     <>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <img
-          className="w-full h-48 object-cover"
+          className="w-full h-[300px] md:h-[280px] lg:h-48 object-cover"
           src={product.productImage}
           alt={product.productName}
         />
