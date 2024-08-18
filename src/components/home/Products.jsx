@@ -11,10 +11,15 @@ function Products() {
   // search for products
   const [searchProduct, setSearchProduct] = useState("");
 
+  // sorted by product
+  const [sortedBy, setSortedBy] = useState("");
+
+
   // all products data
   const { data, allProductsRefetch } = useGetProducts(
     activePage,
-    searchProduct
+    searchProduct,
+    sortedBy
   );
 
   console.log(data, "data");
@@ -30,6 +35,8 @@ function Products() {
     products,
     allProductsRefetch,
     totalProductsCount,
+    sortedBy,
+    setSortedBy,
   };
 
   return (

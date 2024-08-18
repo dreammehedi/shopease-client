@@ -3,11 +3,13 @@ import useGetBrandCategoryName from "../../hooks/useGetBrandCategoryName";
 import { ProductContext } from "./Products";
 
 const ProductAside = () => {
-  const { setSearchProduct, allProductsRefetch, setActivePage } =
-    useContext(ProductContext);
-
-  // sorted by product
-  const [sortedBy, setSortedBy] = useState("");
+  const {
+    setSearchProduct,
+    allProductsRefetch,
+    setActivePage,
+    sortedBy,
+    setSortedBy,
+  } = useContext(ProductContext);
 
   // filter by brand name, category name, or price
   const [filter, setFilter] = useState({});
@@ -165,6 +167,7 @@ const ProductAside = () => {
           value={sortedBy}
           onChange={(e) => {
             setSortedBy(e.target.value);
+            allProductsRefetch();
           }}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
         >
