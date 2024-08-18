@@ -1,15 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { useContext, useRef, useState } from "react";
-import useAxiosPublic from "../../axios/useAxiosPublic";
+import { useRef, useState } from "react";
+import useGetBrandCategoryName from "../../hooks/useGetBrandCategoryName";
 import useGetProducts from "../../hooks/useGetProducts";
-import { ProductContext } from "./Products";
 
 const ProductAside = () => {
-  const axiosPublic = useAxiosPublic();
-
-  // products information
-  const { categoryNames = [] } = useContext(ProductContext);
-
   // search for products
   const [searchProduct, setSearchProduct] = useState("");
 
@@ -32,14 +25,16 @@ const ProductAside = () => {
   );
 
   // get all brand name
-  const { data: allBrandNames = [] } = useQuery({
-    queryKey: ["allBrandNames"],
-    queryFn: async () => {
-      const fetchData = await axiosPublic.get("/all-brand");
-      const resData = await fetchData.data.payload;
-      return resData;
-    },
-  });
+  const { allNames: allBrandNames } = useGetBrandCategoryName(
+    "allBrandNames",
+    "/all-brand"
+  );
+
+  // get all category name
+  const { allNames: allCategoryNames } = useGetBrandCategoryName(
+    "allCategoryNames",
+    "/all-category"
+  );
 
   return (
     <aside className="sticky top-0 p-4 bg-white shadow-md rounded-md">
@@ -117,7 +112,7 @@ const ProductAside = () => {
             // onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="">All Categories</option>
-            {categoryNames.map((categoryName, ind) => {
+            {allCategoryNames.map((categoryName, ind) => {
               let modifiedStringCategoryName = categoryName
                 .replace(/([a-z])([A-Z])/, "$1 $2")
                 .trim();
@@ -128,8 +123,6 @@ const ProductAside = () => {
                 </option>
               );
             })}
-            <option value="ami">ami</option>
-            <option value="tumi">tumi</option>
           </select>
         </div>
 
