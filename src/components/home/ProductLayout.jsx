@@ -15,7 +15,7 @@ const ProductLayout = () => {
 
   // Determine the number of pages
 
-  const totalPages = Math.ceil(totalProductsCount / 6);
+  const totalPages = Math.ceil(totalProductsCount / 9);
 
   // Create an array representing the pages
   const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -31,7 +31,7 @@ const ProductLayout = () => {
           />
         </div>
 
-        {products?.length > 0 ? (
+        {products.length > 0 ? (
           <>
             {/* product grid */}
             <div className="lg:col-span-3">
