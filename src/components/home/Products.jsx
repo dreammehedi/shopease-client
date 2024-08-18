@@ -8,12 +8,10 @@ function Products() {
   // active page
   const [activePage, setActivePage] = useState(1);
 
-  // all products get
-  const { productsData } = useGetProducts(activePage);
-  console.log(productsData);
+  const totalProductsCount = 40;
 
-  // all  products data
-  const { payload: products = [], totalProductsCount = 0 } = productsData;
+  // all products data
+  const { data: products } = useGetProducts(activePage);
 
   // all products related data
   const productsInfo = {

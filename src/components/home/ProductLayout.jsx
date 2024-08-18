@@ -31,7 +31,7 @@ const ProductLayout = () => {
           />
         </div>
 
-        {products.length > 0 ? (
+        {products?.length > 0 ? (
           <>
             {/* product grid */}
             <div className="lg:col-span-3">
