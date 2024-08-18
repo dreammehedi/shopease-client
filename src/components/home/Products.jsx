@@ -14,15 +14,16 @@ function Products() {
   // sorted by product
   const [sortedBy, setSortedBy] = useState("");
 
+  // filter by brand name, category name, or price
+  const [filter, setFilter] = useState({});
 
   // all products data
   const { data, allProductsRefetch } = useGetProducts(
     activePage,
     searchProduct,
-    sortedBy
+    sortedBy,
+    filter
   );
-
-  console.log(data, "data");
 
   const products = data?.payload || [];
   const totalProductsCount = data?.allProductsCount || 47;
@@ -37,6 +38,8 @@ function Products() {
     totalProductsCount,
     sortedBy,
     setSortedBy,
+    filter,
+    setFilter,
   };
 
   return (

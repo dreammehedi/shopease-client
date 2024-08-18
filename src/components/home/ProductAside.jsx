@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import useGetBrandCategoryName from "../../hooks/useGetBrandCategoryName";
 import { ProductContext } from "./Products";
 
@@ -9,11 +9,8 @@ const ProductAside = () => {
     setActivePage,
     sortedBy,
     setSortedBy,
+    setFilter,
   } = useContext(ProductContext);
-
-  // filter by brand name, category name, or price
-  const [filter, setFilter] = useState({});
-  console.log(filter);
 
   const brandRef = useRef();
   const categoryRef = useRef();
@@ -152,6 +149,8 @@ const ProductAside = () => {
             const minPrice = minPriceRef.current.value;
             const maxPrice = maxPriceRef.current.value;
             setFilter({ brand, category, minPrice, maxPrice });
+            setActivePage(1);
+            allProductsRefetch();
           }}
           type="submit"
           className="w-full bg-primary text-white py-2 rounded-lg shadow hover:bg-secondary my-transition"
