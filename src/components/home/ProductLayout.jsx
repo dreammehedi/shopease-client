@@ -6,8 +6,8 @@ const ProductLayout = () => {
   // products information
   const {
     products,
-    allProductsRefetch,
     totalProductsCount,
+    allProductsRefetch,
     activePage,
     setActivePage,
     searchProduct,
@@ -46,6 +46,7 @@ const ProductLayout = () => {
                       onClick={() => {
                         if (activePage > 1) {
                           setActivePage(activePage - 1);
+                          allProductsRefetch();
                         }
                       }}
                       className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white"
@@ -58,7 +59,7 @@ const ProductLayout = () => {
                           key={page}
                           onClick={() => {
                             setActivePage(page);
-                            // allProductsRefetch();
+                            allProductsRefetch();
                           }}
                           className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white cursor-pointer ${
                             page === activePage
@@ -75,6 +76,7 @@ const ProductLayout = () => {
                       onClick={() => {
                         if (activePage < totalPages) {
                           setActivePage(activePage + 1);
+                          allProductsRefetch();
                         }
                       }}
                       className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center "

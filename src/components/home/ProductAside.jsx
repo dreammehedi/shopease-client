@@ -1,28 +1,22 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import useGetBrandCategoryName from "../../hooks/useGetBrandCategoryName";
-import useGetProducts from "../../hooks/useGetProducts";
+import { ProductContext } from "./Products";
 
 const ProductAside = () => {
-  // search for products
-  const [searchProduct, setSearchProduct] = useState("");
+  const { setSearchProduct, allProductsRefetch, setActivePage } =
+    useContext(ProductContext);
 
   // sorted by product
   const [sortedBy, setSortedBy] = useState("");
 
   // filter by brand name, category name, or price
   const [filter, setFilter] = useState({});
+  console.log(filter);
 
   const brandRef = useRef();
   const categoryRef = useRef();
   const minPriceRef = useRef();
   const maxPriceRef = useRef();
-
-  const { productRefetch } = useGetProducts(
-    {},
-    searchProduct,
-    sortedBy,
-    filter
-  );
 
   // get all brand name
   const { allNames: allBrandNames } = useGetBrandCategoryName(
@@ -50,7 +44,8 @@ const ProductAside = () => {
             const form = e.target;
             const searchValue = form?.search?.value.trim();
             setSearchProduct(searchValue);
-            productRefetch();
+            setActivePage(1);
+            allProductsRefetch();
           }}
         >
           <label
@@ -155,7 +150,6 @@ const ProductAside = () => {
             const minPrice = minPriceRef.current.value;
             const maxPrice = maxPriceRef.current.value;
             setFilter({ brand, category, minPrice, maxPrice });
-            productRefetch();
           }}
           type="submit"
           className="w-full bg-primary text-white py-2 rounded-lg shadow hover:bg-secondary my-transition"
@@ -171,7 +165,6 @@ const ProductAside = () => {
           value={sortedBy}
           onChange={(e) => {
             setSortedBy(e.target.value);
-            productRefetch();
           }}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
         >

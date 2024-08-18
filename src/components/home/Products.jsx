@@ -7,10 +7,15 @@ export const ProductContext = createContext();
 function Products() {
   // active page
   const [activePage, setActivePage] = useState(1);
-  console.log(activePage, "active page");
+
+  // search for products
+  const [searchProduct, setSearchProduct] = useState("");
 
   // all products data
-  const { data, allProductsRefetch } = useGetProducts(activePage);
+  const { data, allProductsRefetch } = useGetProducts(
+    activePage,
+    searchProduct
+  );
 
   console.log(data, "data");
 
@@ -21,6 +26,7 @@ function Products() {
   const productsInfo = {
     activePage,
     setActivePage,
+    setSearchProduct,
     products,
     allProductsRefetch,
     totalProductsCount,
