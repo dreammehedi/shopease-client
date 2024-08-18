@@ -1,42 +1,46 @@
-import { useContext, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useContext, useRef, useState } from "react";
+import useAxiosPublic from "../../axios/useAxiosPublic";
+import useGetProducts from "../../hooks/useGetProducts";
 import { ProductContext } from "./Products";
 
 const ProductAside = () => {
+  const axiosPublic = useAxiosPublic();
+
   // products information
-  const {
-    brandNames,
-    categoryNames,
-    setSearchProduct,
-    setSelectedCategory,
-    setSelectedBrand,
-    setPriceRange,
-    sortedBy,
-    setSortedBy,
-  } = useContext(ProductContext);
+  const { categoryNames = [] } = useContext(ProductContext);
+
+  // search for products
+  const [searchProduct, setSearchProduct] = useState("");
+
+  // sorted by product
+  const [sortedBy, setSortedBy] = useState("");
+
+  // filter by brand name, category name, or price
+  const [filter, setFilter] = useState({});
 
   const brandRef = useRef();
   const categoryRef = useRef();
   const minPriceRef = useRef();
   const maxPriceRef = useRef();
 
-  // handle search products
-  const handleSearchProduct = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const searchValue = form?.search?.value.trim();
-    setSearchProduct(searchValue);
-  };
+  const { productRefetch } = useGetProducts(
+    {},
+    searchProduct,
+    sortedBy,
+    filter
+  );
 
-  // handle filter
-  const handleFilter = () => {
-    const brand = brandRef.current.value;
-    const category = categoryRef.current.value;
-    const minPrice = minPriceRef.current.value;
-    const maxPrice = maxPriceRef.current.value;
-    setSelectedBrand(brand);
-    setSelectedCategory(category);
-    setPriceRange([minPrice, maxPrice]);
-  };
+  // get all brand name
+  const { data: allBrandNames = [] } = useQuery({
+    queryKey: ["allBrandNames"],
+    queryFn: async () => {
+      const fetchData = await axiosPublic.get("/all-brand");
+      const resData = await fetchData.data.payload;
+      return resData;
+    },
+  });
+
   return (
     <aside className="sticky top-0 p-4 bg-white shadow-md rounded-md">
       {/* search products */}
@@ -47,7 +51,11 @@ const ProductAside = () => {
 
         <form
           onSubmit={(e) => {
-            handleSearchProduct(e);
+            e.preventDefault();
+            const form = e.target;
+            const searchValue = form?.search?.value.trim();
+            setSearchProduct(searchValue);
+            productRefetch();
           }}
         >
           <label
@@ -83,7 +91,7 @@ const ProductAside = () => {
             // onChange={(e) => setSelectedBrand(e.target.value)}
           >
             <option value="">All Brands</option>
-            {brandNames.map((brandName, ind) => {
+            {allBrandNames.map((brandName, ind) => {
               let modifiedStringBrandName = brandName
                 .replace(/([a-z])([A-Z])/, "$1 $2")
                 .trim();
@@ -120,6 +128,8 @@ const ProductAside = () => {
                 </option>
               );
             })}
+            <option value="ami">ami</option>
+            <option value="tumi">tumi</option>
           </select>
         </div>
 
@@ -132,8 +142,6 @@ const ProductAside = () => {
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
-              // value={priceRange[0]}
-              // onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
               ref={minPriceRef}
               min={0}
               placeholder="Min"
@@ -141,8 +149,6 @@ const ProductAside = () => {
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
-              // value={priceRange[1]}
-              // onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
               ref={maxPriceRef}
               min={5000}
               placeholder="Max"
@@ -150,7 +156,14 @@ const ProductAside = () => {
           </div>
         </div>
         <button
-          onClick={handleFilter}
+          onClick={() => {
+            const brand = brandRef.current.value;
+            const category = categoryRef.current.value;
+            const minPrice = minPriceRef.current.value;
+            const maxPrice = maxPriceRef.current.value;
+            setFilter({ brand, category, minPrice, maxPrice });
+            productRefetch();
+          }}
           type="submit"
           className="w-full bg-primary text-white py-2 rounded-lg shadow hover:bg-secondary my-transition"
         >
@@ -163,7 +176,10 @@ const ProductAside = () => {
         <h2 className="text-xl font-semibold mb-4 text-primary">Sorting</h2>
         <select
           value={sortedBy}
-          onChange={(e) => setSortedBy(e.target.value)}
+          onChange={(e) => {
+            setSortedBy(e.target.value);
+            productRefetch();
+          }}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary my-transition"
         >
           <option value="">Select an option</option>

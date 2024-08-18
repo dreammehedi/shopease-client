@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { createContext, useState } from "react";
-import useAxiosPublic from "./../../axios/useAxiosPublic";
-import Loader from "./../../shared/loader/Loader";
+import useGetProducts from "../../hooks/useGetProducts";
 import ProductLayout from "./ProductLayout";
 
 // products context
@@ -10,72 +8,19 @@ function Products() {
   // active page
   const [activePage, setActivePage] = useState(1);
 
-  // search products
-  const [searchProduct, setSearchProduct] = useState("");
-
-  // brand name
-  const [selectedBrand, setSelectedBrand] = useState("");
-
-  // category name
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  // price range
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-
-  // sorting
-  const [sortedBy, setSortedBy] = useState("");
-
-  // axios public
-  const axiosPublic = useAxiosPublic();
-
   // all products get
-  const { data: productsData = {}, isPending: productLoading } = useQuery({
-    queryKey: [
-      "allProducts",
-      activePage,
-      searchProduct,
-      selectedBrand,
-      selectedCategory,
-      priceRange,
-      sortedBy,
-    ],
-    queryFn: async () => {
-      const fetchProducts = await axiosPublic.get(
-        `http://localhost:5000/api/products?currentPage=${activePage}&searchProduct=${searchProduct}&brandName=${selectedBrand}&categoryName=${selectedCategory}&priceRange=${JSON.stringify(
-          priceRange
-        )}&sortedBy=${sortedBy}`
-      );
-      const resProducts = await fetchProducts.data;
-      return resProducts;
-    },
-  });
+  const { productsData } = useGetProducts(activePage);
+  console.log(productsData);
 
   // all  products data
-  const {
-    payload: products = [],
-    totalProductsCount = 0,
-    uniqueBrandNames = [],
-    uniqueCategory = [],
-  } = productsData;
+  const { payload: products = [], totalProductsCount = 0 } = productsData;
 
   // all products related data
   const productsInfo = {
     activePage,
     setActivePage,
-    searchProduct,
-    setSearchProduct,
     products,
-    brandNames: uniqueBrandNames,
-    categoryNames: uniqueCategory,
     totalProductsCount,
-    selectedBrand,
-    setSelectedBrand,
-    selectedCategory,
-    setSelectedCategory,
-    priceRange,
-    setPriceRange,
-    sortedBy,
-    setSortedBy,
   };
 
   return (
@@ -88,11 +33,12 @@ function Products() {
           </h1>
 
           {/* product loading */}
-          {productLoading && (
+          {/* {productLoading && (
             <div className="flex justify-center items-center w-full min-h-screen fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-gray-100 z-[9999]">
               <Loader></Loader>
             </div>
-          )}
+          )} */}
+
           {/* product layout */}
           <ProductLayout></ProductLayout>
         </section>

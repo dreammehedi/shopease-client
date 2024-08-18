@@ -6,8 +6,6 @@ const ProductLayout = () => {
   // products information
   const {
     products,
-    brandNames,
-    categoryNames,
     totalProductsCount,
     activePage,
     setActivePage,
@@ -22,33 +20,12 @@ const ProductLayout = () => {
   // Create an array representing the pages
   const paginationArray = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  // handle active page
-  const handleActivePage = (page) => {
-    setActivePage(page);
-  };
-
-  // handle prev button
-  const handlePrev = () => {
-    if (activePage > 1) {
-      setActivePage(activePage - 1);
-    }
-  };
-
-  // handle next button
-  const handleNext = () => {
-    if (activePage < totalPages) {
-      setActivePage(activePage + 1);
-    }
-  };
-
   return (
     <>
       <div className="py-4 md:py-6 grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
         {/* product aside */}
         <div className="lg:col-span-1 max-w-[400px] mx-auto">
           <ProductAside
-            brandNames={brandNames}
-            categoryNames={categoryNames}
             searchProduct={searchProduct}
             setSearchProduct={setSearchProduct}
           />
@@ -66,7 +43,9 @@ const ProductLayout = () => {
                   <ul className="mt-6 w-full py-4 md:py-6 flex justify-center items-center">
                     <button
                       onClick={() => {
-                        handlePrev();
+                        if (activePage > 1) {
+                          setActivePage(activePage - 1);
+                        }
                       }}
                       className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center border-r border-white"
                     >
@@ -76,8 +55,8 @@ const ProductLayout = () => {
                       return (
                         <li
                           key={page}
-                          onClick={() => {
-                            handleActivePage(page);
+                          onClick={(page) => {
+                            setActivePage(page);
                           }}
                           className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white ${
                             page === activePage
@@ -92,7 +71,9 @@ const ProductLayout = () => {
 
                     <button
                       onClick={() => {
-                        handleNext();
+                        if (activePage < totalPages) {
+                          setActivePage(activePage + 1);
+                        }
                       }}
                       className="text-sm text-white bg-primary my-transition hover:bg-secondary p-4 px-6 size-5  flex justify-center items-center "
                     >
