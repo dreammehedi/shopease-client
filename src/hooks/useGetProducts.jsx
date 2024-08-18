@@ -3,7 +3,7 @@ import axios from "axios";
 
 function useGetProducts(activePage) {
   const { data, refetch: allProductsRefetch } = useQuery({
-    queryKey: ["allProducts"],
+    queryKey: ["allProducts", activePage],
     queryFn: async () => {
       const fetchProducts = await axios.get(
         `http://localhost:5000/api/products?activePage=${activePage}`

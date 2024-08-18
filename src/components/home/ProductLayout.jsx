@@ -6,6 +6,7 @@ const ProductLayout = () => {
   // products information
   const {
     products,
+    allProductsRefetch,
     totalProductsCount,
     activePage,
     setActivePage,
@@ -55,10 +56,11 @@ const ProductLayout = () => {
                       return (
                         <li
                           key={page}
-                          onClick={(page) => {
+                          onClick={() => {
                             setActivePage(page);
+                            // allProductsRefetch();
                           }}
-                          className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white ${
+                          className={`text-sm text-white bg-primary my-transition hover:bg-secondary p-4 size-5  flex justify-center items-center border-r border-white cursor-pointer ${
                             page === activePage
                               ? "bg-secondary font-bold"
                               : "bg-primary hover:bg-secondary"
